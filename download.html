@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Download AdoOS — Official ISO Releases & Mirrors</title>
+    <title>AdoOS — Build the ISO</title>
     
     <!-- Browser Favicon -->
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
@@ -329,21 +329,21 @@
             <div>
                 <div id="hero-badge" class="gsap-init-hidden inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 text-white text-[11px] sm:text-xs font-semibold px-3 py-1 rounded-full shadow-lg mb-4">
                     <i class="fa-solid fa-download text-ado-cyan"></i>
-                    <span>AdoOS Official Download Center</span>
+                    <span>AdoOS Build Center</span>
                     <span class="mono text-ado-cyan font-normal ml-1 kaomoji-badge">(^o^)/</span>
                 </div>
                 <h1 id="hero-title" class="gsap-init-hidden text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white mb-3">
-                    Download AdoOS ISO Media
+                    Build the AdoOS ISO
                 </h1>
                 <p id="hero-desc" class="gsap-init-hidden text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                    Ultra-lightweight, hardened Alpine Linux base coupled with the ABO package manager. Select your preferred mirror below.
+                    No prebuilt image is published yet. This page explains how the AdoOS ISO is built from Alpine's own mkimage.sh, and how to verify what you build.
                 </p>
             </div>
 
             <!-- Version Pill Box -->
             <div id="hero-pill" class="gsap-init-hidden bg-white/10 backdrop-blur-xl border border-white/20 p-5 rounded-2xl flex flex-col items-center md:items-end flex-shrink-0 text-right">
-                <span class="text-xs uppercase font-bold tracking-wider text-ado-cyan">Latest Release</span>
-                <span class="text-2xl font-extrabold text-white mono mt-0.5">v2.4.0 LTS</span>
+                <span class="text-xs uppercase font-bold tracking-wider text-ado-cyan">Current Tree</span>
+                <span class="text-2xl font-extrabold text-white mono mt-0.5">v0.1.0 dev</span>
                 <span class="text-xs text-slate-300 mt-1 flex items-center gap-1.5">
                     <i class="fa-solid fa-circle-check text-emerald-400"></i> Alpine Base & musl libc
                 </span>
@@ -354,36 +354,39 @@
     <!-- Main Content Area -->
     <main class="max-w-6xl mx-auto px-4 py-10 sm:py-16 w-full flex-grow space-y-12">
 
-        <!-- Primary ISO Download Card Section -->
+        <!-- Build it yourself -->
         <section data-aos="fade-up" data-aos-duration="800">
             <div class="mac-glass-card p-6 sm:p-10 relative overflow-hidden">
-                
+
                 <div class="grid md:grid-cols-3 gap-8 items-center">
-                    
-                    <!-- Main Specs & Details (Col 1 & 2) -->
+
+                    <!-- Specs -->
                     <div class="md:col-span-2 space-y-5">
                         <div class="flex flex-wrap items-center gap-2">
                             <span class="px-3 py-1 bg-us-blue-primary/10 text-us-blue-primary border border-us-blue-primary/20 rounded-lg text-xs font-bold uppercase tracking-wide">
-                                Lightweight Live System
+                                Live x86_64 System
                             </span>
-                            <span class="px-3 py-1 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-lg text-xs font-bold">
-                                Stable LTS Build
+                            <span class="px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-lg text-xs font-bold">
+                                Development Build
                             </span>
                         </div>
 
                         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                            AdoOS 2.4.0 LTS — x86_64 Live Architecture
+                            AdoOS 0.1.0 (dev) &mdash; built from source
                         </h2>
 
                         <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                            Includes a minimal hardened system base, Linux Kernel 6.6 LTS, OpenRC init system, musl libc runtime, and the customized ABO package manager. Designed for extreme resource efficiency, security, and fast boot times.
+                            No image is published yet. The ISO is produced by Alpine's own
+                            <span class="mono">mkimage.sh</span> with an AdoOS profile (branding,
+                            locale package, signing key) from an unmodified Alpine 3.24.1 tree.
+                            The build needs no root: it fetches a small Alpine rootfs and runs
+                            inside a user namespace.
                         </p>
 
-                        <!-- ISO Quick Specs Badges -->
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-semibold text-slate-700">
                             <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
-                                <span class="text-[10px] uppercase text-slate-400 font-bold">File Size</span>
-                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-hard-drive text-us-blue-primary mr-1"></i> ~250 MB</span>
+                                <span class="text-[10px] uppercase text-slate-400 font-bold">Image</span>
+                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-hard-drive text-us-blue-primary mr-1"></i> not published</span>
                             </div>
                             <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
                                 <span class="text-[10px] uppercase text-slate-400 font-bold">Architecture</span>
@@ -391,7 +394,7 @@
                             </div>
                             <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
                                 <span class="text-[10px] uppercase text-slate-400 font-bold">Kernel</span>
-                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-gear text-us-blue-primary mr-1"></i> 6.6 LTS</span>
+                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-gear text-us-blue-primary mr-1"></i> linux-lts 6.18.39</span>
                             </div>
                             <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
                                 <span class="text-[10px] uppercase text-slate-400 font-bold">Init System</span>
@@ -400,21 +403,21 @@
                         </div>
                     </div>
 
-                    <!-- Direct Action Buttons (Col 3) -->
+                    <!-- Actions -->
                     <div class="flex flex-col gap-3.5 justify-center bg-white/60 p-6 rounded-2xl border border-slate-200/70 shadow-sm">
-                        <a href="https://sourceforge.net/projects/adoos/" target="_blank" rel="noopener noreferrer" class="usa-button w-full text-center text-sm py-3.5">
-                            <i class="fa-solid fa-download text-base"></i>
-                            <span>SourceForge Mirror</span>
+                        <a href="index.html#documentation" class="usa-button w-full text-center text-sm py-3.5">
+                            <i class="fa-solid fa-terminal text-base"></i>
+                            <span>Build Report</span>
                         </a>
 
-                        <a href="https://github.com/owarimono/AdoOS/releases" target="_blank" rel="noopener noreferrer" class="usa-button-secondary w-full text-center text-xs font-semibold text-slate-800 !bg-slate-100 hover:!bg-slate-200/80 !border-slate-300">
+                        <a href="https://github.com/owarimono" target="_blank" rel="noopener noreferrer" class="usa-button-secondary w-full text-center text-xs font-semibold text-slate-800 !bg-slate-100 hover:!bg-slate-200/80 !border-slate-300">
                             <i class="fa-brands fa-github text-slate-800"></i>
-                            <span>GitHub Direct Release</span>
+                            <span>Developer GitHub</span>
                         </a>
 
                         <a href="https://t.me/TheAdoOS" target="_blank" rel="noopener noreferrer" class="usa-button-secondary w-full text-center text-xs font-semibold text-slate-800 !bg-sky-50 hover:!bg-sky-100/80 !border-sky-300">
                             <i class="fa-brands fa-telegram text-sky-600"></i>
-                            <span>Get Mirror via Telegram</span>
+                            <span>Project Telegram</span>
                         </a>
                     </div>
 
@@ -423,110 +426,55 @@
             </div>
         </section>
 
-        <!-- Cryptographic Verification Terminal Box -->
+        <!-- Build &amp; verify -->
         <section data-aos="fade-up" data-aos-duration="800" class="mac-glass-dark-pro p-6 sm:p-8 rounded-3xl shadow-2xl">
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
                 <div class="flex items-center space-x-2">
                     <span class="w-3.5 h-3.5 rounded-full bg-red-500/90 inline-block shadow-sm"></span>
                     <span class="w-3.5 h-3.5 rounded-full bg-yellow-500/90 inline-block shadow-sm"></span>
                     <span class="w-3.5 h-3.5 rounded-full bg-green-500/90 inline-block shadow-sm"></span>
-                    <span class="text-xs font-medium text-slate-400 ml-2 mono">SHA-256 Checksum Verification</span>
+                    <span class="text-xs font-medium text-slate-400 ml-2 mono">Build &amp; verify</span>
                 </div>
                 <span class="mono text-xs text-ado-cyan font-bold kaomoji-badge">(•̀ᴗ•́)و</span>
             </div>
 
             <p class="text-xs sm:text-sm text-slate-300 mb-4 font-normal leading-relaxed">
-                Always verify the integrity of your downloaded ISO image before installation:
+                The source tree is private while the first release is being put together. A full build is one
+                command, and it writes its own checksums next to the image:
             </p>
 
             <div class="bg-slate-950/90 p-4 sm:p-5 rounded-2xl border border-white/10 space-y-3 font-mono text-xs text-slate-200">
                 <div>
-                    <span class="text-slate-500"># Command to calculate checksum:</span>
+                    <span class="text-slate-500"># no root, no Alpine install required</span>
                     <div class="mt-1 text-emerald-400 bg-black/40 p-2.5 rounded-lg border border-white/5 break-all select-all">
-                        sha256sum AdoOS-2.4.0-LTS-x86_64.iso
+                        scripts/build-iso.sh
                     </div>
                 </div>
 
                 <div>
-                    <span class="text-slate-500"># Expected SHA-256 Output:</span>
+                    <span class="text-slate-500"># output</span>
                     <div class="mt-1 text-ado-cyan bg-black/40 p-2.5 rounded-lg border border-white/5 break-all select-all">
-                        e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+                        iso/adoos-3.24.1-x86_64.iso<br>
+                        iso/adoos-3.24.1-x86_64.iso.sha256
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Official Download Mirrors Table -->
+        <!-- Mirrors -->
         <section data-aos="fade-up" data-aos-duration="800">
-            <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-xl bg-us-blue-primary/10 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-server text-us-blue-primary"></i>
-                    </div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
-                        Official ISO Mirror Servers
-                    </h2>
-                </div>
-                <span class="mono text-xs text-slate-500 font-semibold kaomoji-badge hidden sm:inline">(~_~)v</span>
-            </div>
-
-            <div class="mac-glass-card overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-xs sm:text-sm">
-                        <thead class="bg-slate-100/90 text-slate-700 font-bold uppercase tracking-wider border-b border-slate-200">
-                            <tr>
-                                <th class="py-3.5 px-5">Location / Mirror</th>
-                                <th class="py-3.5 px-5">Protocol</th>
-                                <th class="py-3.5 px-5">Bandwidth</th>
-                                <th class="py-3.5 px-5 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-200/70 text-slate-700">
-                            <!-- SourceForge (Added & Placed First) -->
-                            <tr class="hover:bg-white/60 transition-colors">
-                                <td class="py-4 px-5 font-semibold flex items-center gap-2">
-                                    <i class="fa-solid fa-box-open text-orange-500"></i>
-                                    SourceForge Official Mirror (Primary)
-                                </td>
-                                <td class="py-4 px-5 font-mono text-xs">HTTPS / CDN</td>
-                                <td class="py-4 px-5 text-emerald-600 font-semibold"><i class="fa-solid fa-bolt mr-1"></i> Global High Speed</td>
-                                <td class="py-4 px-5 text-right">
-                                    <a href="https://sourceforge.net/projects/adoos/" target="_blank" rel="noopener noreferrer" class="usa-button text-xs px-4 py-1.5">
-                                        Download <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-white/60 transition-colors">
-                                <td class="py-4 px-5 font-semibold flex items-center gap-2">
-                                    <i class="fa-solid fa-globe text-us-blue-primary"></i>
-                                    GitHub Releases CDN
-                                </td>
-                                <td class="py-4 px-5 font-mono text-xs">HTTPS / SSL</td>
-                                <td class="py-4 px-5 text-emerald-600 font-semibold"><i class="fa-solid fa-bolt mr-1"></i> High Speed</td>
-                                <td class="py-4 px-5 text-right">
-                                    <a href="https://github.com/owarimono/AdoOS/releases" target="_blank" rel="noopener noreferrer" class="usa-button text-xs px-4 py-1.5">
-                                        Download <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-white/60 transition-colors">
-                                <td class="py-4 px-5 font-semibold flex items-center gap-2">
-                                    <i class="fa-solid fa-paper-plane text-sky-500"></i>
-                                    Telegram Distribution Channel
-                                </td>
-                                <td class="py-4 px-5 font-mono text-xs">P2P Cloud</td>
-                                <td class="py-4 px-5 text-emerald-600 font-semibold"><i class="fa-solid fa-bolt mr-1"></i> Unlimited</td>
-                                <td class="py-4 px-5 text-right">
-                                    <a href="https://t.me/TheAdoOS" target="_blank" rel="noopener noreferrer" class="usa-button text-xs px-4 py-1.5">
-                                        Open Channel <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="mac-glass-card p-6 sm:p-8">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-2">
+                    Mirrors
+                </h2>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                    There are no mirrors, because there is nothing to mirror yet. Mirrors and checksums will be
+                    published together with the first release &mdash; a checksum shown before the image exists
+                    verifies nothing.
+                </p>
             </div>
         </section>
+
 
     </main>
 
@@ -541,7 +489,7 @@
                         <img src="./assets/logo.png" alt="AdoOS Footer Logo" class="h-7 sm:h-8 w-auto object-contain" />
                     </div>
                     <p class="text-xs text-slate-300 leading-relaxed font-normal">
-                        Ultra-lightweight Alpine-based Linux distribution built for performance and simplicity.
+                        Alpine Linux 3.24.1 derivative: musl libc, OpenRC, unmodified aports, reproducible ISO builds.
                     </p>
                 </div>
 
@@ -552,7 +500,7 @@
                         <li>
                             <a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="hover:text-ado-cyan transition-colors flex items-center gap-2">
                                 <i class="fa-brands fa-github text-sm text-ado-cyan"></i>
-                                <span>AdoOS Repository</span>
+                                <span>AdoOS Repository (private for now)</span>
                             </a>
                         </li>
                         <li>
@@ -569,8 +517,8 @@
                     <h4 class="font-bold uppercase tracking-wider text-xs text-slate-300 mb-3">Resources</h4>
                     <ul class="space-y-2 text-xs text-slate-300">
                         <li><a href="index.html#documentation" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-book mr-1.5 text-ado-cyan"></i>User Guides & Manuals</a></li>
-                        <li><a href="https://sourceforge.net/projects/adoos/" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-box-open mr-1.5 text-ado-cyan"></i>SourceForge Page</a></li>
-                        <li><a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-code-branch mr-1.5 text-ado-cyan"></i>Source Code Mirror</a></li>
+                        <li><a href="index.html#documentation" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-terminal mr-1.5 text-ado-cyan"></i>Build Report</a></li>
+                        <li><a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-code-branch mr-1.5 text-ado-cyan"></i>Source (private during development)</a></li>
                     </ul>
                 </div>
 
@@ -578,11 +526,11 @@
                 <div>
                     <h4 class="font-bold uppercase tracking-wider text-xs text-slate-300 mb-3">System Status</h4>
                     <p class="text-xs text-slate-300 leading-relaxed mb-2">
-                        Active LTS Release Cycle.
+                        Development tree. Nothing published yet.
                     </p>
                     <span class="mono text-xs text-us-blue-light font-semibold flex items-center gap-1.5">
                         <i class="fa-solid fa-circle text-emerald-400 text-[9px] animate-pulse"></i>
-                        SYSTEM OPERATIONAL
+                        DEVELOPMENT BUILDS
                         <span class="kaomoji-badge text-ado-cyan font-normal ml-1">(*^._.^)v</span>
                     </span>
                 </div>

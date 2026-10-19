@@ -320,7 +320,7 @@
                     <i class="fa-solid fa-microchip text-us-blue-primary"></i> System Specs
                 </a>
                 <a href="download.html" class="mobile-nav-link p-2 rounded-lg hover:bg-slate-100 flex items-center gap-2 active:scale-98">
-                    <i class="fa-solid fa-download text-us-blue-primary"></i> ISO Releases
+                    <i class="fa-solid fa-download text-us-blue-primary"></i> Build ISO
                 </a>
                 <a href="#documentation" class="mobile-nav-link p-2 rounded-lg hover:bg-slate-100 flex items-center gap-2 active:scale-98">
                     <i class="fa-solid fa-terminal text-us-blue-primary"></i> Documentation
@@ -362,7 +362,7 @@
                 
                 <div id="hero-badge" class="gsap-init-hidden inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 text-white text-[11px] sm:text-xs font-semibold px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shadow-lg mb-4 sm:mb-6">
                     <i class="fa-solid fa-certificate text-ado-cyan"></i>
-                    <span>Release Version 2.4.0 LTS</span>
+                    <span>Development build 0.1.0 &mdash; no release yet</span>
                     <span class="mono text-ado-cyan font-normal ml-1 sm:ml-2 kaomoji-badge" title="Ready">(•̀ᴗ•́)و</span>
                 </div>
 
@@ -375,13 +375,13 @@
                 </div>
 
                 <p id="hero-desc" class="gsap-init-hidden text-sm sm:text-base md:text-lg text-slate-200 leading-relaxed mb-6 sm:mb-8 drop-shadow font-normal">
-                    An ultra-lightweight, hardened Linux distribution engineered for maximum efficiency, minimalism, and security. Powered by OpenRC, musl libc, and the custom ABO package manager.
+                    An Alpine Linux 3.24.1 derivative. Same musl libc, same OpenRC, same apk &mdash; no Alpine recipe is patched, so anything that runs on Alpine runs here. AdoOS adds a reproducible ISO build and a written-down scope of what it does and does not support.
                 </p>
 
                 <div id="hero-buttons" class="gsap-init-hidden flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
                     <a href="download.html" class="usa-button w-full sm:w-auto">
                         <i class="fa-solid fa-file-arrow-down"></i>
-                        <span>Download ISO Media</span>
+                        <span>Build the ISO</span>
                         <span class="mono font-normal text-xs text-ado-cyan ml-1 kaomoji-badge">＼(^_^)／</span>
                     </a>
                     <a href="#specifications" class="usa-button-secondary w-full sm:w-auto">
@@ -420,9 +420,9 @@
                         </span>
                         <span class="mono text-xs text-us-blue-primary font-bold kaomoji-badge">(•_•)</span>
                     </div>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Hardened Core Security</h3>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Unmodified Alpine Base</h3>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                        Designed with stack protection and a streamlined musl libc architecture to minimize attack surface and run under 128 MB RAM.
+                        Alpine 3.24.1, musl libc, OpenRC. The <span class="mono">aports</span> tree is an untouched upstream checkout, so AdoOS carries no patched recipes and no divergent libc.
                     </p>
                 </div>
 
@@ -433,9 +433,9 @@
                         </span>
                         <span class="mono text-xs text-us-blue-primary font-bold kaomoji-badge">(⊙_⊙)</span>
                     </div>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">ABO Package Manager</h3>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">apk, Not Forked</h3>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                        Features the fast, native ABO package management system for seamless software deployment and lightweight dependency handling.
+                        The package manager is Alpine's apk, unchanged: same package format, same repositories, same signing. The AdoOS delta lives in build profiles, overlay files and its own packages.
                     </p>
                 </div>
 
@@ -446,9 +446,9 @@
                         </span>
                         <span class="mono text-xs text-us-blue-primary font-bold kaomoji-badge">d(ﾟ-ﾟ*)</span>
                     </div>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Long-Term Support (LTS)</h3>
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Reproducible Builds</h3>
                     <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                        Powered by Linux Kernel 6.6 LTS, ensuring continuous stability, security patches, and minimal API/ABI breakages.
+                        The image timestamp is pinned to the source commit, so the same commit produces the same ISO. The kernel is Alpine's <span class="mono">linux-lts</span> (6.18.39 on 3.24.1) &mdash; unmodified.
                     </p>
                 </div>
 
@@ -468,13 +468,14 @@
                 <span class="mono text-[11px] sm:text-xs text-emerald-400 font-bold flex items-center gap-1.5"><i class="fa-solid fa-circle text-[8px] animate-pulse"></i>ONLINE</span>
             </div>
             <pre class="mono text-[11px] sm:text-xs text-slate-200 bg-slate-950/80 p-4 sm:p-5 rounded-2xl border border-white/10 overflow-x-auto leading-relaxed shadow-inner">
-[SYS_CHECK] Initializing AdoOS System Telemetry Diagnostic... <span class="text-ado-cyan font-bold">(>_ <)</span>
-[SUCCESS] Kernel Loaded: Linux 6.6.12-ado-lts #1 SMP PREEMPT_DYNAMIC
-[SUCCESS] Environment: musl libc / OpenRC
-[INFO] Package Manager: abo (Active)
+[SYS_CHECK] AdoOS build report &mdash; development tree <span class="text-ado-cyan font-bold">(>_ <)</span>
+[INFO] Base: Alpine Linux 3.24.1 (musl libc / OpenRC)
+[INFO] Kernel: linux-lts 6.18.39 &mdash; unmodified Alpine package
+[INFO] Package Manager: apk (unmodified, no fork)
 [INFO] Architecture: x86_64
-[INFO] Memory Allocation: 42 MB / 512 MB (Optimal)
-[STATUS] All core subsystems fully operational. <span class="text-emerald-400 font-bold">(*^._.^)v</span>
+[INFO] ISO: built by Alpine's own mkimage.sh, no root required
+[INFO] Branding: os-release, issue, motd via apk overlay
+[STATUS] No release published yet. <span class="text-emerald-400 font-bold">(*^._.^)v</span>
             </pre>
         </section>
 
@@ -490,22 +491,22 @@
                     <!-- Server Status Indicator -->
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 font-semibold text-xs">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span>ISO Mirrors Online & Verified</span>
+                        <span>No release published yet</span>
                     </div>
 
                     <!-- Title & Subtitle -->
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                        Get AdoOS 2.4.0 LTS
+                        AdoOS 0.1.0 &mdash; in development
                     </h2>
                     <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-                        Ready to deploy? Access official ISO images (~250 MB), cryptographic checksums, mirror lists, and system requirements on our dedicated download center.
+                        There is no downloadable image yet. The development tree builds its own ISO with Alpine's mkimage.sh &mdash; the exact commands and the expected output are on the build page.
                     </p>
 
                     <!-- Quick Specs Pill -->
                     <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-semibold text-slate-500 pt-1">
                         <span class="flex items-center gap-1.5"><i class="fa-solid fa-microchip text-us-blue-primary"></i> x86_64 Architecture</span>
-                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-hard-drive text-us-blue-primary"></i> ~250 MB Hybrid ISO</span>
-                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-box text-us-blue-primary"></i> ABO Manager</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-hard-drive text-us-blue-primary"></i> Builds from source</span>
+                        <span class="flex items-center gap-1.5"><i class="fa-solid fa-box text-us-blue-primary"></i> apk (unmodified)</span>
                     </div>
                 </div>
 
@@ -514,7 +515,7 @@
                     <!-- Primary Download Page Link -->
                     <a href="download.html" class="usa-button text-center px-8 py-3 text-sm">
                         <i class="fa-solid fa-download text-base"></i>
-                        <span>Go to Download Page</span>
+                        <span>How to Build It</span>
                         <span class="mono font-normal text-xs text-ado-cyan ml-1 kaomoji-badge">(/◕ヮ◕)/</span>
                     </a>
 
@@ -552,7 +553,7 @@
                         <li>
                             <a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="hover:text-ado-cyan transition-colors flex items-center gap-2">
                                 <i class="fa-brands fa-github text-sm text-ado-cyan"></i>
-                                <span>AdoOS Repository</span>
+                                <span>AdoOS Repository (private for now)</span>
                             </a>
                         </li>
                         <li>
@@ -590,11 +591,11 @@
                 <div>
                     <h4 class="font-bold uppercase tracking-wider text-xs text-slate-300 mb-3">System Status</h4>
                     <p class="text-xs text-slate-300 leading-relaxed mb-2">
-                        POSIX compliant. Active support release window.
+                        Development tree. Nothing published yet.
                     </p>
                     <span class="mono text-xs text-us-blue-light font-semibold flex items-center gap-1.5">
                         <i class="fa-solid fa-circle text-emerald-400 text-[9px] animate-pulse"></i>
-                        SYSTEM OPERATIONAL
+                        DEVELOPMENT BUILDS
                         <span class="kaomoji-badge text-ado-cyan font-normal ml-1">(*^._.^)v</span>
                     </span>
                 </div>
