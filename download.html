@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" dir="ltr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>AdoOS — Build the ISO</title>
+    <title>AdoOS — Build & Verification Center</title>
     
-    <!-- Browser Favicon -->
     <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
 
     <!-- Tailwind CSS -->
@@ -15,445 +14,200 @@
             theme: {
                 extend: {
                     colors: {
-                        'us-blue-dark': '#0b223d',
-                        'us-blue-primary': '#005ea2',
-                        'us-blue-light': '#e1f3fe',
-                        'us-gray-dark': '#3d4551',
-                        'us-gray-light': '#f8f9fa',
-                        'ado-cyan': '#00b4d8'
+                        'ado-dark': '#060b13',
+                        'ado-navy': '#0c1626',
+                        'ado-blue': '#0066cc',
+                        'ado-cyan': '#00d4ff'
                     },
                     fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'SF Pro Text', 'Public Sans', 'sans-serif'],
-                        mono: ['SF Mono', 'Source Code Pro', 'Menlo', 'Monaco', 'monospace']
+                        sans: ['Plus Jakarta Sans', 'Vazirmatn', 'Noto Sans JP', '-apple-system', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'SF Mono', 'monospace']
                     }
                 }
             }
         }
     </script>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Vector Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Lenis Smooth Scroll Library -->
+    
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-
-    <!-- GSAP Animation Engine -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-
-    <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <style>
-        /* Lenis Smooth Scroll Rules */
-        html.lenis, html.lenis body {
-            height: auto;
-        }
-        .lenis.lenis-smooth {
-            scroll-behavior: auto !important;
-        }
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
-        .lenis.lenis-scrolling iframe {
-            pointer-events: none;
-        }
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Public Sans', sans-serif;
-            background: #eef2f6;
-            color: #1d1d1f;
+            background: #f1f5f9;
+            color: #0f172a;
             overflow-x: hidden;
-        }
-        .mono {
-            font-family: 'SF Mono', 'Source Code Pro', monospace;
+            transition: font-family 0.2s ease;
         }
 
-        /* macOS Glass Navigation Header */
+        html[lang="fa"] body { font-family: 'Vazirmatn', sans-serif; }
+        html[lang="ja"] body { font-family: 'Noto Sans JP', sans-serif; }
+        html[lang="en"] body { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        .mono, pre, code {
+            font-family: 'JetBrains Mono', monospace !important;
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        .ambient-grid {
+            background-size: 38px 38px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 102, 204, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 102, 204, 0.04) 1px, transparent 1px);
+        }
+
         .macos-header {
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(35px) saturate(210%);
-            -webkit-backdrop-filter: blur(35px) saturate(210%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(28px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
         }
 
-        /* Pure macOS Glass Card Styling */
-        .mac-glass-card {
-            background: rgba(255, 255, 255, 0.58);
-            backdrop-filter: blur(35px) saturate(200%);
-            -webkit-backdrop-filter: blur(35px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.85);
-            border-radius: 1.5rem;
-            box-shadow: 
-                0 12px 35px -8px rgba(0, 0, 0, 0.04),
-                inset 0 1.5px 0.5px rgba(255, 255, 255, 0.9);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, box-shadow;
-        }
-        .mac-glass-card:hover {
-            transform: translateY(-4px) scale(1.005);
-            background: rgba(255, 255, 255, 0.75);
-            border-color: rgba(0, 180, 216, 0.5);
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 94, 162, 0.18),
-                inset 0 1.5px 1px #ffffff;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.84);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
         }
 
-        /* macOS Glass Terminal Window */
-        .mac-glass-dark-pro {
-            background: rgba(11, 22, 38, 0.82);
-            backdrop-filter: blur(35px) saturate(190%);
-            -webkit-backdrop-filter: blur(35px) saturate(190%);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.38),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        .terminal-box {
+            background: rgba(8, 14, 25, 0.94);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
-        /* --- macOS Animated Interactive Buttons --- */
-        .usa-button {
-            position: relative;
-            background: linear-gradient(180deg, #0077e6 0%, #005ea2 100%);
-            color: #ffffff;
+        .nav-item {
+            padding: 0.45rem 0.85rem;
+            border-radius: 0.6rem;
+            color: #334155;
             font-weight: 600;
-            padding: 0.78rem 1.6rem;
-            border-radius: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.65rem;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 
-                0 6px 18px rgba(0, 113, 227, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.4);
-            will-change: transform, box-shadow;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover {
+            background: rgba(0, 102, 204, 0.08);
+            color: #0066cc;
         }
 
-        .usa-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-            transition: left 0.6s ease;
+        .lang-btn {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.65rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
         }
-        .usa-button:hover::before {
-            left: 100%;
+        .lang-btn.active {
+            background: #0066cc;
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
         }
-
-        .usa-button:hover {
-            transform: translateY(-2.5px) scale(1.02);
-            box-shadow: 
-                0 12px 28px rgba(0, 113, 227, 0.48),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6);
-            filter: brightness(1.06);
-        }
-
-        .usa-button:active {
-            transform: translateY(0px) scale(0.97);
-            box-shadow: 0 4px 10px rgba(0, 113, 227, 0.3);
-            filter: brightness(0.95);
-        }
-
-        .usa-button-secondary {
-            position: relative;
-            background: rgba(255, 255, 255, 0.14);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.38);
-            font-weight: 600;
-            padding: 0.75rem 1.6rem;
-            border-radius: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.65rem;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, background-color;
-        }
-
-        .usa-button-secondary:hover {
-            background: rgba(255, 255, 255, 0.28);
-            border-color: rgba(255, 255, 255, 0.7);
-            transform: translateY(-2.5px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .usa-button-secondary:active {
-            transform: translateY(0px) scale(0.97);
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        /* Navigation Links macOS Hover Pill */
-        .nav-link {
-            position: relative;
-            padding: 0.45rem 0.9rem;
-            border-radius: 0.65rem;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nav-link:hover {
-            background: rgba(0, 0, 0, 0.06);
-            color: #0071e3;
-        }
-        .nav-link.active {
-            background: rgba(0, 94, 162, 0.1);
-            color: #005ea2;
-        }
-
-        /* Hero Header Banner */
-        .download-hero {
-            background: linear-gradient(135deg, #0b223d 0%, #001d3d 100%);
-            color: #ffffff;
-            position: relative;
-        }
-
-        /* Kaomoji Micro Interactions */
-        .kaomoji-badge {
-            display: inline-block;
-            transition: transform 0.25s ease, color 0.25s ease;
-        }
-        .kaomoji-badge:hover {
-            transform: scale(1.25) translateY(-1px);
-            color: #00b4d8;
-        }
-
-        .gsap-init-hidden {
-            opacity: 0;
-            will-change: opacity, transform;
-        }
+        .lang-btn:not(.active) { color: #64748b; }
+        .lang-btn:not(.active):hover { background: #e2e8f0; color: #0f172a; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-us-blue-primary selection:text-white">
+<body class="min-h-screen flex flex-col justify-between antialiased ambient-grid">
 
-    <!-- macOS Glass Navigation Header -->
-    <header id="uswds-header" class="macos-header sticky top-0 z-50 transition-all duration-300 gsap-init-hidden">
-        <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
-            
-            <!-- Header Brand Container -->
-            <a href="index.html" class="flex items-center space-x-3 group">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 bg-us-blue-dark/90 border border-white/30 shadow-md flex-shrink-0 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105 active:scale-95">
-                    <img src="./assets/profile.png" alt="AdoOS Profile" class="w-full h-full object-cover" />
+    <!-- Header -->
+    <header class="macos-header sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-900 to-ado-navy p-0.5 shadow-md">
+                    <img src="./assets/profile.png" alt="AdoOS" class="w-full h-full object-cover rounded-[10px]" />
                 </div>
-                
                 <div class="flex flex-col">
-                    <div class="flex items-center space-x-1.5 sm:space-x-2">
-                        <img id="brand-logo" src="./assets/logo.png" alt="AdoOS Logo" class="h-6 sm:h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
-                        <span class="text-xs text-us-blue-primary mono kaomoji-badge font-bold hidden sm:inline">(~^.^)~</span>
-                    </div>
-                    <span class="text-[8px] sm:text-[9px] tracking-widest text-slate-500 uppercase font-bold mt-0.5">LIGHTWEIGHT ALPINE-BASED PLATFORM</span>
+                    <img src="./assets/logo.png" alt="AdoOS" class="h-6 w-auto object-contain" />
+                    <span class="text-[10px] tracking-wider text-slate-500 font-bold uppercase" data-i18n="tagline">Build Center</span>
                 </div>
             </a>
 
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-800">
-                <a href="index.html#overview" class="nav-link flex items-center gap-1.5">
-                    <i class="fa-solid fa-compass text-us-blue-primary"></i>
-                    Overview
-                </a>
-                <a href="index.html#specifications" class="nav-link flex items-center gap-1.5">
-                    <i class="fa-solid fa-microchip text-us-blue-primary"></i>
-                    Specs
-                </a>
-                <a href="download.html" class="nav-link active flex items-center gap-1.5">
-                    <i class="fa-solid fa-download text-us-blue-primary"></i>
-                    Downloads
-                </a>
-                <a href="index.html#documentation" class="nav-link flex items-center gap-1.5">
-                    <i class="fa-solid fa-terminal text-us-blue-primary"></i>
-                    Docs
-                </a>
+            <div class="flex items-center gap-3">
+                <nav class="hidden md:flex items-center gap-1">
+                    <a href="index.html" class="nav-item"><i class="fa-solid fa-arrow-left mx-1 rtl:rotate-180"></i><span data-i18n="nav_home">Home</span></a>
+                    <a href="index.html#specifications" class="nav-item" data-i18n="nav_specs">Specs</a>
+                    <a href="download.html" class="nav-item text-ado-blue bg-blue-50/80"><i class="fa-solid fa-download mx-1"></i><span data-i18n="nav_build">Build ISO</span></a>
+                </nav>
 
-                <!-- Header Quick Social Links -->
-                <div class="flex items-center space-x-1.5 ml-2 pl-3 border-l border-slate-300">
-                    <a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-700 hover:text-us-blue-primary transition-colors text-sm active:scale-90" title="Project Repository">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                    <a href="https://t.me/TheAdoOS" target="_blank" rel="noopener noreferrer" class="p-1.5 text-slate-700 hover:text-us-blue-primary transition-colors text-sm active:scale-90" title="Project Telegram">
-                        <i class="fa-brands fa-telegram"></i>
-                    </a>
+                <!-- Language Selector -->
+                <div class="flex items-center bg-slate-100/80 p-0.5 rounded-lg border border-slate-200">
+                    <button onclick="setLang('en')" class="lang-btn" id="lang-en">EN</button>
+                    <button onclick="setLang('fa')" class="lang-btn" id="lang-fa">فا</button>
+                    <button onclick="setLang('ja')" class="lang-btn" id="lang-ja">日本語</button>
                 </div>
-            </nav>
-
-            <!-- Mobile Hamburger Button -->
-            <button id="mobile-menu-btn" aria-label="Toggle navigation menu" class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-slate-200/50 hover:bg-slate-300/50 text-slate-800 transition-all active:scale-95">
-                <i class="fa-solid fa-bars text-base"></i>
-            </button>
-        </div>
-
-        <!-- Mobile Dropdown Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 pt-2 border-t border-white/20 bg-white/80 backdrop-blur-2xl">
-            <nav class="flex flex-col space-y-2 text-sm font-semibold text-slate-800">
-                <a href="index.html#overview" class="mobile-nav-link p-2 rounded-lg hover:bg-slate-100 flex items-center gap-2 active:scale-98">
-                    <i class="fa-solid fa-compass text-us-blue-primary"></i> Overview
-                </a>
-                <a href="index.html#specifications" class="mobile-nav-link p-2 rounded-lg hover:bg-slate-100 flex items-center gap-2 active:scale-98">
-                    <i class="fa-solid fa-microchip text-us-blue-primary"></i> System Specs
-                </a>
-                <a href="download.html" class="mobile-nav-link p-2 rounded-lg bg-slate-100/80 flex items-center gap-2 active:scale-98 text-us-blue-primary">
-                    <i class="fa-solid fa-download text-us-blue-primary"></i> ISO Releases
-                </a>
-                <a href="index.html#documentation" class="mobile-nav-link p-2 rounded-lg hover:bg-slate-100 flex items-center gap-2 active:scale-98">
-                    <i class="fa-solid fa-terminal text-us-blue-primary"></i> Documentation
-                </a>
-                
-                <!-- Mobile Social Links -->
-                <div class="pt-2 border-t border-slate-200/60 flex items-center gap-3 text-xs">
-                    <a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-slate-700 hover:text-us-blue-primary">
-                        <i class="fa-brands fa-github text-sm"></i> GitHub
-                    </a>
-                    <a href="https://t.me/TheAdoOS" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-slate-700 hover:text-us-blue-primary">
-                        <i class="fa-brands fa-telegram text-sm"></i> Telegram
-                    </a>
-                </div>
-            </nav>
+            </div>
         </div>
     </header>
 
-    <!-- Download Hero Header -->
-    <section class="download-hero py-12 sm:py-16 px-4 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto relative z-10 text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-6">
+    <!-- Download Hero -->
+    <section class="bg-gradient-to-b from-[#081220] to-[#0c182b] text-white py-14 sm:py-20 px-4 sm:px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
-                <div id="hero-badge" class="gsap-init-hidden inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 text-white text-[11px] sm:text-xs font-semibold px-3 py-1 rounded-full shadow-lg mb-4">
-                    <i class="fa-solid fa-download text-ado-cyan"></i>
-                    <span>AdoOS Build Center</span>
-                    <span class="mono text-ado-cyan font-normal ml-1 kaomoji-badge">(^o^)/</span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-ado-cyan/10 border border-ado-cyan/30 text-ado-cyan text-xs font-semibold mb-4">
+                    <i class="fa-solid fa-code-commit"></i>
+                    <span data-i18n="hero_pill">Source Build Workflow</span>
                 </div>
-                <h1 id="hero-title" class="gsap-init-hidden text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight text-white mb-3">
-                    Build the AdoOS ISO
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-3" data-i18n="hero_title">
+                    Compile the AdoOS ISO
                 </h1>
-                <p id="hero-desc" class="gsap-init-hidden text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
-                    No prebuilt image is published yet. This page explains how the AdoOS ISO is built from Alpine's own mkimage.sh, and how to verify what you build.
+                <p class="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed" data-i18n="hero_desc">
+                    AdoOS is distributed as source recipes. The ISO is produced directly by Alpine’s native mkimage.sh inside a rootless user namespace.
                 </p>
             </div>
 
-            <!-- Version Pill Box -->
-            <div id="hero-pill" class="gsap-init-hidden bg-white/10 backdrop-blur-xl border border-white/20 p-5 rounded-2xl flex flex-col items-center md:items-end flex-shrink-0 text-right">
-                <span class="text-xs uppercase font-bold tracking-wider text-ado-cyan">Current Tree</span>
-                <span class="text-2xl font-extrabold text-white mono mt-0.5">v0.1.0 dev</span>
-                <span class="text-xs text-slate-300 mt-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-check text-emerald-400"></i> Alpine Base & musl libc
+            <!-- Version Card -->
+            <div class="bg-white/5 border border-white/10 backdrop-blur-xl p-5 rounded-2xl flex flex-col sm:items-end">
+                <span class="text-[11px] font-bold text-ado-cyan uppercase tracking-wider" data-i18n="tree_status">Source Tree Status</span>
+                <span class="text-2xl font-bold mono text-white mt-1">v0.1.0 dev</span>
+                <span class="text-xs text-slate-400 mt-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-check-circle text-emerald-400"></i> <span data-i18n="tree_musl">Pure Musl libc • OpenRC</span>
                 </span>
             </div>
         </div>
     </section>
 
-    <!-- Main Content Area -->
-    <main class="max-w-6xl mx-auto px-4 py-10 sm:py-16 w-full flex-grow space-y-12">
-
-        <!-- Build it yourself -->
-        <section data-aos="fade-up" data-aos-duration="800">
-            <div class="mac-glass-card p-6 sm:p-10 relative overflow-hidden">
-
-                <div class="grid md:grid-cols-3 gap-8 items-center">
-
-                    <!-- Specs -->
-                    <div class="md:col-span-2 space-y-5">
-                        <div class="flex flex-wrap items-center gap-2">
-                            <span class="px-3 py-1 bg-us-blue-primary/10 text-us-blue-primary border border-us-blue-primary/20 rounded-lg text-xs font-bold uppercase tracking-wide">
-                                Live x86_64 System
-                            </span>
-                            <span class="px-3 py-1 bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded-lg text-xs font-bold">
-                                Development Build
-                            </span>
-                        </div>
-
-                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                            AdoOS 0.1.0 (dev) &mdash; built from source
-                        </h2>
-
-                        <p class="text-sm text-slate-600 leading-relaxed font-normal">
-                            No image is published yet. The ISO is produced by Alpine's own
-                            <span class="mono">mkimage.sh</span> with an AdoOS profile (branding,
-                            locale package, signing key) from an unmodified Alpine 3.24.1 tree.
-                            The build needs no root: it fetches a small Alpine rootfs and runs
-                            inside a user namespace.
-                        </p>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs font-semibold text-slate-700">
-                            <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
-                                <span class="text-[10px] uppercase text-slate-400 font-bold">Image</span>
-                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-hard-drive text-us-blue-primary mr-1"></i> not published</span>
-                            </div>
-                            <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
-                                <span class="text-[10px] uppercase text-slate-400 font-bold">Architecture</span>
-                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-microchip text-us-blue-primary mr-1"></i> x86_64</span>
-                            </div>
-                            <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
-                                <span class="text-[10px] uppercase text-slate-400 font-bold">Kernel</span>
-                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-gear text-us-blue-primary mr-1"></i> linux-lts 6.18.39</span>
-                            </div>
-                            <div class="p-3 bg-slate-100/80 rounded-xl border border-slate-200/80 flex flex-col gap-1">
-                                <span class="text-[10px] uppercase text-slate-400 font-bold">Init System</span>
-                                <span class="mono font-bold text-slate-900"><i class="fa-solid fa-bolt text-us-blue-primary mr-1"></i> OpenRC</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="flex flex-col gap-3.5 justify-center bg-white/60 p-6 rounded-2xl border border-slate-200/70 shadow-sm">
-                        <a href="index.html#documentation" class="usa-button w-full text-center text-sm py-3.5">
-                            <i class="fa-solid fa-terminal text-base"></i>
-                            <span>Build Report</span>
-                        </a>
-
-                        <a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="usa-button-secondary w-full text-center text-xs font-semibold text-slate-800 !bg-slate-100 hover:!bg-slate-200/80 !border-slate-300">
-                            <i class="fa-brands fa-github text-slate-800"></i>
-                            <span>AdoOS Repository</span>
-                        </a>
-
-                        <a href="https://t.me/TheAdoOS" target="_blank" rel="noopener noreferrer" class="usa-button-secondary w-full text-center text-xs font-semibold text-slate-800 !bg-sky-50 hover:!bg-sky-100/80 !border-sky-300">
-                            <i class="fa-brands fa-telegram text-sky-600"></i>
-                            <span>Project Telegram</span>
-                        </a>
-                    </div>
-
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Build &amp; verify -->
-        <section data-aos="fade-up" data-aos-duration="800" class="mac-glass-dark-pro p-6 sm:p-8 rounded-3xl shadow-2xl">
-            <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 w-full flex-grow space-y-12">
+        
+        <!-- Terminal Command Box -->
+        <section data-aos="fade-up" class="terminal-box rounded-2xl p-6 sm:p-8">
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
                 <div class="flex items-center space-x-2">
-                    <span class="w-3.5 h-3.5 rounded-full bg-red-500/90 inline-block shadow-sm"></span>
-                    <span class="w-3.5 h-3.5 rounded-full bg-yellow-500/90 inline-block shadow-sm"></span>
-                    <span class="w-3.5 h-3.5 rounded-full bg-green-500/90 inline-block shadow-sm"></span>
-                    <span class="text-xs font-medium text-slate-400 ml-2 mono">Build &amp; verify</span>
+                    <span class="w-3 h-3 rounded-full bg-red-500"></span>
+                    <span class="w-3 h-3 rounded-full bg-yellow-500"></span>
+                    <span class="w-3 h-3 rounded-full bg-green-500"></span>
+                    <span class="text-xs font-mono text-slate-400 ml-2" data-i18n="term_header">Quick Build Command</span>
                 </div>
-                <span class="mono text-xs text-ado-cyan font-bold kaomoji-badge">(•̀ᴗ•́)و</span>
+                <span class="text-xs mono text-ado-cyan">(•̀ᴗ•́)و</span>
             </div>
 
-            <p class="text-xs sm:text-sm text-slate-300 mb-4 font-normal leading-relaxed">
-                The source tree is public. A full build is one command, and it writes its own
-                checksums next to the image:
+            <p class="text-xs sm:text-sm text-slate-300 mb-4 leading-relaxed" data-i18n="term_explain">
+                Run this single command on any modern Linux host. It downloads an isolated Alpine rootfs and compiles the ISO without needing sudo or root privileges:
             </p>
 
-            <div class="bg-slate-950/90 p-4 sm:p-5 rounded-2xl border border-white/10 space-y-3 font-mono text-xs text-slate-200">
-                <div>
-                    <span class="text-slate-500"># no root, no Alpine install required</span>
-                    <div class="mt-1 text-emerald-400 bg-black/40 p-2.5 rounded-lg border border-white/5 break-all select-all">
+            <div class="space-y-4">
+                <div class="bg-black/60 rounded-xl p-4 border border-white/10 flex items-center justify-between gap-4">
+                    <code class="mono text-xs sm:text-sm text-emerald-400 select-all" id="build-cmd">
                         scripts/build-iso.sh
-                    </div>
+                    </code>
+                    <button class="text-xs mono text-slate-300 hover:text-white bg-white/10 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition-colors" onclick="copySnippet('scripts/build-iso.sh', this)">
+                        <i class="fa-regular fa-copy"></i>
+                        <span data-i18n="btn_copy">Copy</span>
+                    </button>
                 </div>
 
-                <div>
-                    <span class="text-slate-500"># output</span>
-                    <div class="mt-1 text-ado-cyan bg-black/40 p-2.5 rounded-lg border border-white/5 break-all select-all">
+                <div class="text-xs font-mono text-slate-400 pl-1">
+                    <span class="text-slate-500" data-i18n="output_comment"># Resulting artifacts written to ./iso</span>
+                    <div class="mt-1 text-slate-300">
                         iso/adoos-3.24.1-x86_64.iso<br>
                         iso/adoos-3.24.1-x86_64.iso.sha256
                     </div>
@@ -461,167 +215,165 @@
             </div>
         </section>
 
-        <!-- Mirrors -->
-        <section data-aos="fade-up" data-aos-duration="800">
-            <div class="mac-glass-card p-6 sm:p-8">
-                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-2">
-                    Mirrors
-                </h2>
-                <p class="text-sm text-slate-600 leading-relaxed">
-                    There are no mirrors, because there is nothing to mirror yet. Mirrors and checksums will be
-                    published together with the first release &mdash; a checksum shown before the image exists
-                    verifies nothing.
-                </p>
+        <!-- Specifications Grid -->
+        <section data-aos="fade-up" class="glass-card p-6 sm:p-8">
+            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-ado-blue"></i>
+                <span data-i18n="target_specs_title">Build Target Specifications</span>
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-medium text-slate-700">
+                <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                    <span class="text-[10px] uppercase text-slate-400 font-bold block mb-1" data-i18n="spec_arch">Architecture</span>
+                    <span class="mono font-bold text-slate-900 text-sm">x86_64 (AMD64)</span>
+                </div>
+                <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                    <span class="text-[10px] uppercase text-slate-400 font-bold block mb-1" data-i18n="spec_kernel">Target Kernel</span>
+                    <span class="mono font-bold text-slate-900 text-sm">linux-lts 6.18.39</span>
+                </div>
+                <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                    <span class="text-[10px] uppercase text-slate-400 font-bold block mb-1" data-i18n="spec_init">Init System</span>
+                    <span class="mono font-bold text-slate-900 text-sm">OpenRC</span>
+                </div>
+                <div class="p-4 bg-slate-50 border border-slate-200/80 rounded-xl">
+                    <span class="text-[10px] uppercase text-slate-400 font-bold block mb-1" data-i18n="spec_base">Base Distribution</span>
+                    <span class="mono font-bold text-slate-900 text-sm">Alpine 3.24.1</span>
+                </div>
             </div>
         </section>
 
+        <!-- Mirror Statement -->
+        <section data-aos="fade-up" class="glass-card p-6 sm:p-8 border-l-4 rtl:border-l-0 rtl:border-r-4 border-l-ado-blue rtl:border-r-ado-blue">
+            <h3 class="text-lg font-bold text-slate-900 mb-2" data-i18n="mirror_title">Notice Regarding Mirrors</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="mirror_desc">
+                Mirror servers and official SHA256 sums will be announced once milestone 0.1.0-release is frozen. Pre-publishing checksums for development builds violates cryptographic verification integrity.
+            </p>
+        </section>
 
     </main>
 
-    <!-- macOS Style Footer -->
-    <footer class="bg-us-blue-dark text-white pt-14 sm:pt-18 pb-8 border-t border-white/10 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto px-4 relative z-10">
-            <div class="grid md:grid-cols-4 gap-8 pb-10 border-b border-slate-700/60 text-sm">
-                
-                <!-- Col 1: About -->
-                <div class="md:col-span-1">
-                    <div class="mb-3">
-                        <img src="./assets/logo.png" alt="AdoOS Footer Logo" class="h-7 sm:h-8 w-auto object-contain" />
-                    </div>
-                    <p class="text-xs text-slate-300 leading-relaxed font-normal">
-                        Alpine Linux 3.24.1 derivative: musl libc, OpenRC, unmodified aports, reproducible ISO builds.
-                    </p>
-                </div>
-
-                <!-- Col 2: Social Links -->
-                <div>
-                    <h4 class="font-bold uppercase tracking-wider text-xs text-slate-300 mb-3">Community & Socials</h4>
-                    <ul class="space-y-2 text-xs text-slate-300">
-                        <li>
-                            <a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="hover:text-ado-cyan transition-colors flex items-center gap-2">
-                                <i class="fa-brands fa-github text-sm text-ado-cyan"></i>
-                                <span>AdoOS Repository</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://t.me/TheAdoOS" target="_blank" rel="noopener noreferrer" class="hover:text-ado-cyan transition-colors flex items-center gap-2">
-                                <i class="fa-brands fa-telegram text-sm text-ado-cyan"></i>
-                                <span>AdoOS Telegram</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Col 3: Resources -->
-                <div>
-                    <h4 class="font-bold uppercase tracking-wider text-xs text-slate-300 mb-3">Resources</h4>
-                    <ul class="space-y-2 text-xs text-slate-300">
-                        <li><a href="index.html#documentation" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-book mr-1.5 text-ado-cyan"></i>User Guides & Manuals</a></li>
-                        <li><a href="index.html#documentation" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-terminal mr-1.5 text-ado-cyan"></i>Build Report</a></li>
-                        <li><a href="https://github.com/owarimono/AdoOS" target="_blank" rel="noopener noreferrer" class="hover:underline hover:text-white transition-all inline-block"><i class="fa-solid fa-code-branch mr-1.5 text-ado-cyan"></i>Source Code</a></li>
-                    </ul>
-                </div>
-
-                <!-- Col 4: Status -->
-                <div>
-                    <h4 class="font-bold uppercase tracking-wider text-xs text-slate-300 mb-3">System Status</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed mb-2">
-                        Development tree. Nothing published yet.
-                    </p>
-                    <span class="mono text-xs text-us-blue-light font-semibold flex items-center gap-1.5">
-                        <i class="fa-solid fa-circle text-emerald-400 text-[9px] animate-pulse"></i>
-                        DEVELOPMENT BUILDS
-                        <span class="kaomoji-badge text-ado-cyan font-normal ml-1">(*^._.^)v</span>
-                    </span>
-                </div>
-            </div>
-
-            <div class="pt-6 sm:pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 gap-4 text-center md:text-left">
-                <div class="flex items-center space-x-2">
-                    <span>© 2026 AdoOS Open Source Initiative. All rights reserved.</span>
-                </div>
+    <!-- Footer -->
+    <footer class="bg-ado-dark text-slate-400 py-8 border-t border-slate-800 text-xs">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>&copy; 2026 The AdoOS Project</div>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/owarimono/AdoOS" target="_blank" class="hover:text-white"><i class="fa-brands fa-github text-sm mx-1"></i>GitHub</a>
+                <a href="https://t.me/TheAdoOS" target="_blank" class="hover:text-white"><i class="fa-brands fa-telegram text-sm mx-1"></i>Telegram</a>
             </div>
         </div>
     </footer>
 
-    <!-- Init Animations & Mobile Menu Logic -->
+    <!-- Translations & Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile Menu Toggle Logic
-            const mobileBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileLinks = document.querySelectorAll('.mobile-nav-link');
-
-            if (mobileBtn && mobileMenu) {
-                mobileBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
-                });
+        const translations = {
+            en: {
+                tagline: "Build Center",
+                nav_home: "Home",
+                nav_specs: "Specs",
+                nav_build: "Build ISO",
+                hero_pill: "Source Build Workflow",
+                hero_title: "Compile the AdoOS ISO",
+                hero_desc: "AdoOS is distributed as source recipes. The ISO is produced directly by Alpine’s native mkimage.sh inside a rootless user namespace.",
+                tree_status: "Source Tree Status",
+                tree_musl: "Pure Musl libc • OpenRC",
+                term_header: "Quick Build Command",
+                term_explain: "Run this single command on any modern Linux host. It downloads an isolated Alpine rootfs and compiles the ISO without needing sudo or root privileges:",
+                btn_copy: "Copy",
+                btn_copied: "Copied! ✓",
+                output_comment: "# Resulting artifacts written to ./iso",
+                target_specs_title: "Build Target Specifications",
+                spec_arch: "Architecture",
+                spec_kernel: "Target Kernel",
+                spec_init: "Init System",
+                spec_base: "Base Distribution",
+                mirror_title: "Notice Regarding Mirrors",
+                mirror_desc: "Mirror servers and official SHA256 sums will be announced once milestone 0.1.0-release is frozen. Pre-publishing checksums for development builds violates cryptographic verification integrity."
+            },
+            fa: {
+                tagline: "مرکز ساخت و کامپایل",
+                nav_home: "صفحه اصلی",
+                nav_specs: "مشخصات فنی",
+                nav_build: "ساخت ISO",
+                hero_pill: "فرایند ساخت مستقیم از سورس",
+                hero_title: "کامپایل ایمیج رسمی AdoOS",
+                hero_desc: "سیستم‌عامل AdoOS به صورت دستورالعمل‌های سورس توزیع می‌شود. ایمیج ISO مستقیماً توسط اسکریپت رسمی mkimage.sh در یک فضای کاربری ایزوله (بدون نیاز به دسترسی روت) ساخته می‌شود.",
+                tree_status: "وضعیت درخت سورس",
+                tree_musl: "بستر Musl libc خالص • مدیریت OpenRC",
+                term_header: "فرمان اجرای خودکار ساخت",
+                term_explain: "این دستور را در هر توزیع مدرن لینوکس اجرا کنید. این اسکریپت یک روت‌اف‌اس موقت را بارگیری کرده و بدون نیاز به دسترسی ریشه (rootless)، ایمیج نهایی را تولید می‌کند:",
+                btn_copy: "کپی",
+                btn_copied: "کپی شد! ✓",
+                output_comment: "# فایل‌های نهایی تولید شده در دایرکتوری iso/",
+                target_specs_title: "مشخصات خروجی کامپایل",
+                spec_arch: "معماری پردازنده",
+                spec_kernel: "کرنل هدف",
+                spec_init: "سامانه راه‌اندازی (Init)",
+                spec_base: "توزیع پایه بالادست",
+                mirror_title: "یادداشت درباره سرورهای دانلود (میرورها)",
+                mirror_desc: "سرورهای دانلود و کدهای اعتبارسنجی SHA256 هم‌زمان با نهایی‌سازی نگارش 0.1.0-release معرفی خواهند شد. ارائه چک‌سام پیش از تثبیت ایمیج نهایی با اصول اعتبارسنجی رمزنگاری در تضاد است."
+            },
+            ja: {
+                tagline: "ビルドセンター",
+                nav_home: "ホーム",
+                nav_specs: "仕様一覧",
+                nav_build: "ISOビルド",
+                hero_pill: "ソースビルド手順",
+                hero_title: "AdoOS ISOのビルドと検証",
+                hero_desc: "AdoOSはソースコードレシピとして配布されます。ISOはAlpineネイティブのmkimage.shを使用し、非特権ユーザー名前空間内で直接生成されます。",
+                tree_status: "開発ツリー状態",
+                tree_musl: "純粋なMusl libc • OpenRC",
+                term_header: "ワンライン・ビルドコマンド",
+                term_explain: "任意のLinux環境で以下のコマンドを実行してください。独立したAlpine rootfsを取得し、root特権（sudo）を要求せずにISOを生成します：",
+                btn_copy: "コピー",
+                btn_copied: "完了! ✓",
+                output_comment: "# 生成されたファイルは ./iso に出力されます",
+                target_specs_title: "ビルドターゲット仕様",
+                spec_arch: "アーキテクチャ",
+                spec_kernel: "採用カーネル",
+                spec_init: "Initシステム",
+                spec_base: "ベースディストリビューション",
+                mirror_title: "ミラーサーバーに関するご案内",
+                mirror_desc: "ミラーサーバーおよび公式SHA256ハッシュは、0.1.0-releaseのタグ確定時に正式発表されます。ビルド成果物の確定前にハッシュを公開することは暗号学的完全性を損なうため控えています。"
             }
+        };
 
-            // Lenis Smooth Scroll Setup
-            const lenis = new Lenis({
-                duration: 1.1,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                direction: 'vertical',
-                gestureDirection: 'vertical',
-                smooth: true,
-                mouseMultiplier: 1.0,
-                smoothTouch: false,
-                touchMultiplier: 2,
-                infinite: false,
+        function setLang(lang) {
+            localStorage.setItem('ado_lang', lang);
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === 'fa') ? 'rtl' : 'ltr';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
             });
 
-            lenis.on('scroll', AOS.refresh);
+            ['en', 'fa', 'ja'].forEach(l => {
+                const b = document.getElementById(`lang-${l}`);
+                if (b) b.classList.toggle('active', l === lang);
+            });
+        }
 
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
+        function copySnippet(text, btnElement) {
+            navigator.clipboard.writeText(text).then(() => {
+                const curLang = localStorage.getItem('ado_lang') || 'en';
+                const originalHtml = btnElement.innerHTML;
+                btnElement.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> ${translations[curLang].btn_copied}`;
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHtml;
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('ado_lang') || 'en';
+            setLang(savedLang);
+
+            const lenis = new Lenis({ duration: 1.0, smooth: true });
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
             requestAnimationFrame(raf);
-
-            // GSAP Entrance Animations
-            const mainTl = gsap.timeline({ defaults: { ease: "power2.out" } });
-
-            mainTl.fromTo("#uswds-header", 
-                { opacity: 0, filter: "blur(12px)" }, 
-                { opacity: 1, filter: "blur(0px)", duration: 0.8 }
-            )
-            .fromTo("#hero-badge", 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 0.4 }, 
-                "-=0.2"
-            )
-            .fromTo("#hero-title", 
-                { opacity: 0, filter: "blur(8px)" }, 
-                { opacity: 1, filter: "blur(0px)", duration: 0.6 }, 
-                "-=0.2"
-            )
-            .fromTo("#hero-desc", 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 0.5 }, 
-                "-=0.3"
-            )
-            .fromTo("#hero-pill", 
-                { opacity: 0 }, 
-                { opacity: 1, duration: 0.4 }, 
-                "-=0.3"
-            );
-
-            // Initialize AOS Library
-            AOS.init({
-                duration: 800,
-                easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-                once: true,
-                offset: 40
-            });
+            AOS.init({ duration: 600, once: true });
         });
     </script>
-
 </body>
 </html>
